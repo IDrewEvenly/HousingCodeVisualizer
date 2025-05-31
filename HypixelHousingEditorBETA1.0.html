@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hypixel Housing Blockly Visualizer</title>
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <style>
+    html, body {
+      height: 100%; margin: 0; overflow: hidden; font-family: sans-serif;
+    }
+    #blocklyDiv {
+      height: 80%; width: 100%;
+    }
+    #codeArea {
+      height: 20%; width: 100%; background: #111; color: #0f0;
+      padding: 10px; box-sizing: border-box; font-family: monospace;
+      white-space: pre; overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="blocklyDiv"></div>
+  <div id="codeArea">// Your code will appear here</div>
+
+  <xml id="toolbox" style="display: none">
+    <category name="Events" colour="20">
+      <block type="event_player_join"></block>
+      <block type="event_player_quit"></block>
+      <block type="event_player_death"></block>
+      <block type="event_player_kill"></block>
+      <block type="event_player_respawn"></block>
+      <block type="event_start_parkour"></block>
+      <block type="event_group_change"></block>
+      <block type="event_pvp_state_change"></block>
+      <block type="event_fish_caught"></block>
+      <block type="event_enter_portal"></block>
+      <block type="event_player_damage"></block>
+      <block type="event_block_break"></block>
+    </category>
+    <category name="Actions" colour="160">
+      <block type="housing_send_message"></block>
+      <block type="housing_cancel_event"></block>
+      <block type="housing_kill_player"></block>
+      <block type="housing_display_title"></block>
+      <block type="housing_teleport_player"></block>
+      <block type="housing_trigger_function"></block>
+      <block type="housing_set_variable"></block>
+      <block type="housing_change_variable"></block>
+      <block type="housing_execute_command"></block>
+      <block type="housing_open_gui"></block>
+      <block type="housing_set_hunger"></block>
+      <block type="housing_give_effect"></block>
+      <block type="housing_clear_effects"></block>
+      <block type="housing_set_group"></block>
+      <block type="housing_damage"></block>
+      <block type="housing_heal"></block>
+    </category>
+    <category name="Conditionals" colour="210">
+      <block type="housing_if"></block>
+      <block type="condition_required_group"></block>
+      <block type="condition_player_stat"></block>
+      <block type="condition_global_stat"></block>
+      <block type="condition_required_permission"></block>
+      <block type="condition_within_region"></block>
+      <block type="condition_has_item"></block>
+      <block type="condition_doing_parkour"></block>
+      <block type="condition_has_potion_effect"></block>
+    </category>
+  </xml>
+
+  <script>
+    // Define all blocks in one JSON array
+    Blockly.defineBlocksWithJsonArray([
+      // Event blocks
+      { "type": "event_player_join", "message0": "Player Join", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20, "tooltip": "Triggered when player joins", "helpUrl": "" },
+      { "type": "event_player_quit", "message0": "Player Quit", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_player_death", "message0": "Player Death", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_player_kill", "message0": "Player Kill", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_player_respawn", "message0": "Player Respawn", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_start_parkour", "message0": "Start Parkour", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_group_change", "message0": "Group Change", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_pvp_state_change", "message0": "PVP State Change", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_fish_caught", "message0": "Fish Caught", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_enter_portal", "message0": "Player Enter Portal", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_player_damage", "message0": "Player Damage", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+      { "type": "event_block_break", "message0": "Player Block Break", "args0": [], "inputsInline": true,
+        "message1": "do %1", "args1": [{ "type": "input_statement", "name": "DO" }], "colour": 20 },
+
+      // Actions
+      {
+        "type": "housing_send_message",
+        "message0": "Send message %1",
+        "args0": [{ "type": "field_input", "name": "MSG", "text": "Hello!" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_cancel_event",
+        "message0": "Cancel Event",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 0
+      },
+      {
+        "type": "housing_kill_player",
+        "message0": "Kill Player",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 0
+      },
+      {
+        "type": "housing_display_title",
+        "message0": "Display Title %1 Subtitle %2 Fadein %3 Stay %4 Fadeout %5",
+        "args0": [
+          { "type": "field_input", "name": "TITLE", "text": "Welcome!" },
+          { "type": "field_input", "name": "SUB", "text": "Good luck!" },
+          { "type": "field_number", "name": "FADEIN", "value": 1 },
+          { "type": "field_number", "name": "STAY", "value": 3 },
+          { "type": "field_number", "name": "FADEOUT", "value": 1 }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_teleport_player",
+        "message0": "Teleport to %1",
+        "args0": [
+          {
+            "type": "field_dropdown",
+            "name": "DEST",
+            "options": [
+              ["House Spawn", "spawn"],
+              ["Current Location", "current"],
+              ["Custom Coordinates", "custom"]
+            ]
+          }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_trigger_function",
+        "message0": "Trigger function %1",
+        "args0": [{ "type": "field_input", "name": "FUNC_NAME", "text": "start" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_set_variable",
+        "message0": "Set variable %1 to %2",
+        "args0": [
+          { "type": "field_input", "name": "VAR" },
+          { "type": "field_input", "name": "VAL" }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_change_variable",
+        "message0": "Change variable %1 by %2",
+        "args0": [
+          { "type": "field_input", "name": "VAR" },
+          { "type": "field_input", "name": "DELTA" }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_execute_command",
+        "message0": "Execute command %1",
+        "args0": [{ "type": "field_input", "name": "CMD" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_open_gui",
+        "message0": "Open GUI %1",
+        "args0": [{ "type": "field_input", "name": "GUI" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_set_hunger",
+        "message0": "Set hunger to %1",
+        "args0": [{ "type": "field_input", "name": "LEVEL" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_give_effect",
+        "message0": "Give effect %1 for %2s",
+        "args0": [
+          { "type": "field_input", "name": "EFFECT" },
+          { "type": "field_input", "name": "DURATION" }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_clear_effects",
+        "message0": "Clear all effects",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_set_group",
+        "message0": "Set group to %1",
+        "args0": [{ "type": "field_input", "name": "GROUP" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_damage",
+        "message0": "Damage player by %1",
+        "args0": [{ "type": "field_number", "name": "AMOUNT", "value": 1 }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+      {
+        "type": "housing_heal",
+        "message0": "Heal player by %1",
+        "args0": [{ "type": "field_number", "name": "AMOUNT", "value": 1 }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160
+      },
+
+      // Conditionals
+      {
+        "type": "housing_if",
+        "message0": "If (Match Any Condition %1 ) %2 do %3 else %4",
+        "args0": [
+          { "type": "field_checkbox", "name": "MATCH_ANY", "checked": false },
+          { "type": "input_statement", "name": "CONDITIONS" },
+          { "type": "input_statement", "name": "DO" },
+          { "type": "input_statement", "name": "ELSE" }
+        ],
+        "colour": 210,
+        "tooltip": "If conditions are met, do actions, else else actions"
+      },
+      {
+        "type": "condition_required_group",
+        "message0": "Required Group %1 Include Higher Groups %2",
+        "args0": [
+          { "type": "field_input", "name": "GROUP", "text": "default" },
+          { "type": "field_checkbox", "name": "INCLUDE_HIGHER", "checked": false }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_player_stat",
+        "message0": "Player Stat %1 Comparator %2 Value %3",
+        "args0": [
+          { "type": "field_input", "name": "STAT", "text": "kills" },
+          {
+            "type": "field_dropdown",
+            "name": "COMP",
+            "options": [
+              ["<", "LT"],
+              ["≤", "LE"],
+              ["=", "EQ"],
+              ["≥", "GE"],
+              [">", "GT"]
+            ]
+          },
+          { "type": "field_number", "name": "VAL", "value": 0 }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_global_stat",
+        "message0": "Global Stat %1 Comparator %2 Value %3",
+        "args0": [
+          { "type": "field_input", "name": "STAT", "text": "global_score" },
+          {
+            "type": "field_dropdown",
+            "name": "COMP",
+            "options": [
+              ["<", "LT"],
+              ["≤", "LE"],
+              ["=", "EQ"],
+              ["≥", "GE"],
+              [">", "GT"]
+            ]
+          },
+          { "type": "field_number", "name": "VAL", "value": 0 }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_required_permission",
+        "message0": "Required Permission %1",
+        "args0": [{ "type": "field_input", "name": "PERM", "text": "housing.use" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_within_region",
+        "message0": "Within Region %1",
+        "args0": [{ "type": "field_input", "name": "REGION", "text": "spawn" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_has_item",
+        "message0": "Has Item %1 Check %2 Where %3 Amount %4",
+        "args0": [
+          { "type": "field_input", "name": "ITEM", "text": "diamond_sword" },
+          {
+            "type": "field_dropdown",
+            "name": "CHECK",
+            "options": [
+              ["Same Item Type", "type"],
+              ["Exact Item", "exact"]
+            ]
+          },
+          {
+            "type": "field_dropdown",
+            "name": "WHERE",
+            "options": [
+              ["Hand", "hand"],
+              ["Armor", "armor"],
+              ["Hotbar", "hotbar"],
+              ["Inventory", "inventory"],
+              ["Anywhere", "anywhere"]
+            ]
+          },
+          {
+            "type": "field_dropdown",
+            "name": "AMOUNT",
+            "options": [
+              ["Any", "any"],
+              ["Equal or Greater", "gte"]
+            ]
+          }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_doing_parkour",
+        "message0": "Doing Parkour",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      },
+      {
+        "type": "condition_has_potion_effect",
+        "message0": "Has Potion Effect %1",
+        "args0": [{ "type": "field_input", "name": "EFFECT", "text": "speed" }],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 210
+      }
+    ]);
+
+    // Generators for blocks - simple example generating pseudocode
+    Blockly.JavaScript['housing_if'] = function(block) {
+      var matchAny = block.getFieldValue('MATCH_ANY') === 'TRUE';
+      var conditions = Blockly.JavaScript.statementToCode(block, 'CONDITIONS');
+      var doActions = Blockly.JavaScript.statementToCode(block, 'DO');
+      var elseActions = Blockly.JavaScript.statementToCode(block, 'ELSE');
+      var code = 'if (' + (matchAny ? 'anyConditionMet()' : 'allConditionsMet()') + ') {\n' +
+                  doActions +
+                 '} else {\n' +
+                  elseActions +
+                 '}\n';
+      return code;
+    };
+
+    // Dummy generator for conditions (return empty strings)
+    function simpleStatementGenerator(block) {
+      return ''; // You can customize this as needed.
+    }
+
+    ['condition_required_group','condition_player_stat','condition_global_stat',
+    'condition_required_permission','condition_within_region','condition_has_item',
+    'condition_doing_parkour','condition_has_potion_effect'].forEach(function(type) {
+      Blockly.JavaScript[type] = simpleStatementGenerator;
+    });
+
+    // Simple generators for events and actions (stubbed)
+    Blockly.JavaScript['event_player_join'] = Blockly.JavaScript['event_player_quit'] =
+    Blockly.JavaScript['event_player_death'] = Blockly.JavaScript['event_player_kill'] =
+    Blockly.JavaScript['event_player_respawn'] = Blockly.JavaScript['event_start_parkour'] =
+    Blockly.JavaScript['event_group_change'] = Blockly.JavaScript['event_pvp_state_change'] =
+    Blockly.JavaScript['event_fish_caught'] = Blockly.JavaScript['event_enter_portal'] =
+    Blockly.JavaScript['event_player_damage'] = Blockly.JavaScript['event_block_break'] =
+    function(block) {
+      var statements = Blockly.JavaScript.statementToCode(block, 'DO');
+      return `// Event: ${block.type}\n` + statements;
+    };
+
+    Blockly.JavaScript['housing_send_message'] = function(block) {
+      var msg = block.getFieldValue('MSG');
+      return `sendMessage("${msg}");\n`;
+    };
+    Blockly.JavaScript['housing_cancel_event'] = () => 'cancelEvent();\n';
+    Blockly.JavaScript['housing_kill_player'] = () => 'killPlayer();\n';
+    Blockly.JavaScript['housing_display_title'] = function(block) {
+      var title = block.getFieldValue('TITLE');
+      var sub = block.getFieldValue('SUB');
+      var fadein = block.getFieldValue('FADEIN');
+      var stay = block.getFieldValue('STAY');
+      var fadeout = block.getFieldValue('FADEOUT');
+      return `displayTitle("${title}", "${sub}", ${fadein}, ${stay}, ${fadeout});\n`;
+    };
+    Blockly.JavaScript['housing_teleport_player'] = function(block) {
+      var dest = block.getFieldValue('DEST');
+      return `teleportPlayer("${dest}");\n`;
+    };
+    Blockly.JavaScript['housing_trigger_function'] = function(block) {
+      var func = block.getFieldValue('FUNC_NAME');
+      return `triggerFunction("${func}");\n`;
+    };
+    Blockly.JavaScript['housing_set_variable'] = function(block) {
+      var v = block.getFieldValue('VAR');
+      var val = block.getFieldValue('VAL');
+      return `setVariable("${v}", "${val}");\n`;
+    };
+    Blockly.JavaScript['housing_change_variable'] = function(block) {
+      var v = block.getFieldValue('VAR');
+      var val = block.getFieldValue('DELTA');
+      return `changeVariable("${v}", "${val}");\n`;
+    };
+    Blockly.JavaScript['housing_execute_command'] = function(block) {
+      var cmd = block.getFieldValue('CMD');
+      return `executeCommand("${cmd}");\n`;
+    };
+    Blockly.JavaScript['housing_open_gui'] = function(block) {
+      var gui = block.getFieldValue('GUI');
+      return `openGui("${gui}");\n`;
+    };
+    Blockly.JavaScript['housing_set_hunger'] = function(block) {
+      var level = block.getFieldValue('LEVEL');
+      return `setHunger(${level});\n`;
+    };
+    Blockly.JavaScript['housing_give_effect'] = function(block) {
+      var eff = block.getFieldValue('EFFECT');
+      var dur = block.getFieldValue('DURATION');
+      return `giveEffect("${eff}", ${dur});\n`;
+    };
+    Blockly.JavaScript['housing_clear_effects'] = () => 'clearEffects();\n';
+    Blockly.JavaScript['housing_set_group'] = function(block) {
+      var group = block.getFieldValue('GROUP');
+      return `setGroup("${group}");\n`;
+    };
+    Blockly.JavaScript['housing_damage'] = function(block) {
+      var amt = block.getFieldValue('AMOUNT');
+      return `damagePlayer(${amt});\n`;
+    };
+    Blockly.JavaScript['housing_heal'] = function(block) {
+      var amt = block.getFieldValue('AMOUNT');
+      return `healPlayer(${amt});\n`;
+    };
+
+    // Initialize Blockly workspace after page loads
+    window.addEventListener('load', () => {
+      const workspace = Blockly.inject('blocklyDiv', {
+        toolbox: document.getElementById('toolbox'),
+        scrollbars: true,
+        trashcan: true,
+        zoom: { controls: true, wheel: true },
+        grid: { spacing: 20, length: 3, colour: '#ccc', snap: true },
+      });
+
+      // Generate and display code on workspace change
+      workspace.addChangeListener(() => {
+        const code = Blockly.JavaScript.workspaceToCode(workspace);
+        document.getElementById('codeArea').textContent = code;
+      });
+    });
+  </script>
+</body>
+</html>
